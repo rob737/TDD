@@ -1,0 +1,18 @@
+Unit testing is basically testing the smallest component like functions etc individually.
+Integration testing is basically testing the overall flow where in multiple components are involved.
+
+Libraries for unit testing :
+1. junit :
+creating test cases, assertions etc.
+
+2. Mockito :
+creating mocks and stubs to mock external dependency that need not be tested as part of
+unit testing.
+
+e.g. db connection need not be tested if we are testing data fetch from db.
+
+-- Maven scope:
+
+<scope>test</scope>
+It signifies that this dependency is used only for testing purposes and
+isn't needed during normal execution.
