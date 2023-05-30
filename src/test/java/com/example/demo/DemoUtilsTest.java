@@ -31,13 +31,19 @@ import java.util.List;
 *
 * assertTrue() and assertFalse(): As the name suggests.
 *
+* Note : At class level, we can put annotation @TestMethodOrder(MethodOrder.MathodName.class) to
+* display test cases in alphabetical order by method name.
 * ------- Important --------------
 * assertArrayEquals() : asserts that both object arrays are deeply equal.
 * assertIterableEquals() : asserts that both object iterables are deeply equal. (can be used to test
 * any class that implements Iterable interface.)
 * assertLinesMatch() : asserts that both lists are equal
+* assertThrows() : Asserts on exception
+* assertNotThrows() : Asserts that exception was not thrown
+* assertTimeoutPreemptively() : To test if method was interrupted
+*
 * */
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayNameGeneration(DisplayNameGenerator.Standard.class)
 public class DemoUtilsTest {
     DemoUtils demoUtils;
@@ -80,6 +86,7 @@ public class DemoUtilsTest {
         assertNull(ref);
     }
 
+    @Order(1) // Lowest number has highest priority of execution.
     @Test
     void checkReference(){
         String firstRef = demoUtils.getFirstReference();
@@ -108,4 +115,10 @@ public class DemoUtilsTest {
     static void demoAfterAll(){
         System.out.println("After all demonstration ...");
     }*/
+
+    @Test
+    void testException(){
+        assertThrows(Exception.class,() -> demoUtils.throwsException(-9),"Exception for -ve input");
+        assertDoesNotThrow(() -> demoUtils.throwsException(9),"No Exception raised for +ve input");
+    }
 }

@@ -31,4 +31,10 @@ public class DemoUtils {
     public List<String> getFamilyMembersList(){
         return listArray;
     }
+
+    public void throwsException(int num) throws Exception {
+        if(num < 0)
+            throw new Exception("Input must be positive.");
+        System.out.println(num);
+    }
 }
