@@ -16,3 +16,5 @@ e.g. db connection need not be tested if we are testing data fetch from db.
 <scope>test</scope>
 It signifies that this dependency is used only for testing purposes and
 isn't needed during normal execution.
+
+mvn clean test : command to run test cases.
