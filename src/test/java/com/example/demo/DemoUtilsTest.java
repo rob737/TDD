@@ -42,6 +42,13 @@ import java.util.List;
 * assertNotThrows() : Asserts that exception was not thrown
 * assertTimeoutPreemptively() : To test if method was interrupted
 *
+*
+* @Disabled : To disable a test case, it can be applied at a class level or method level
+*
+* @EnableIfSystemProperty : Executes a test only if corresponding system property is set.
+* @EnableIfEnvironmentVariable : As the name suggests
+* To set System and environment variable, click on edit run configuration
+* and then -D flag for system variable and environment variable section for environment variable.
 * */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayNameGeneration(DisplayNameGenerator.Standard.class)
@@ -86,6 +93,7 @@ public class DemoUtilsTest {
         assertNull(ref);
     }
 
+    @Disabled
     @Order(1) // Lowest number has highest priority of execution.
     @Test
     void checkReference(){
