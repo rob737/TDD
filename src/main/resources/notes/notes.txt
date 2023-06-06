@@ -24,4 +24,7 @@ mvn clean test : command to run test cases.
 TDD is basically following below 3 steps in loop :
 1. Write a failing test
 2. Write main business code to pass the test
-3. Refactor and repeat until acceptable level is reached.
+3. Repeat above two steps until all business scenarios are covered.
+4. Refactor the code accordingly.
+
+----
