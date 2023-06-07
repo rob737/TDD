@@ -16,6 +16,8 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -49,5 +51,13 @@ public class FizzBuzzTest {
     void divisibleByNeitherThreeNorFive(){
         String expected = "13";
         assertEquals(expected,FizzBuzz.generate(13));
+    }
+
+    // The path in CsvFileSource is relative to resources directly automatically.
+    @ParameterizedTest(name="value={0}, expected={1}")
+    @CsvFileSource(resources = "/fuzzy-test-data.csv")
+    @Order(5)
+    void testFuzzyLogicForMultipleInputs(int value, String expected) {
+        assertEquals(expected,FizzBuzz.generate(value));
     }
 }
