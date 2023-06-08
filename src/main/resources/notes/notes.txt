@@ -28,3 +28,4 @@ TDD is basically following below 3 steps in loop :
 4. Refactor the code accordingly.
 
 ----
+Mockito library is used for mocking dependencies as sprint boot has built in support for it.
