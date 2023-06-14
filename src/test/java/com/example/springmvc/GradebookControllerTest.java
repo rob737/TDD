@@ -24,10 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,7 +48,7 @@ public class GradebookControllerTest {
     private StudentDao studentDao;
 
     @Mock
-    private StudentAndGradeService studentAndGradeServiceMock;
+    private StudentAndGradeService studentCreateServiceMock;
 
 
     @BeforeAll
@@ -71,9 +71,9 @@ public class GradebookControllerTest {
         CollegeStudent collegeStudentTwo = new GradebookCollegeStudent("Ruchika","Sinha","ruchika@sinha.com");
 
         List<CollegeStudent> collegeStudents = new ArrayList<>(Arrays.asList(collegeStudent,collegeStudentTwo));
-        when(studentAndGradeServiceMock.getGradeBook()).thenReturn(collegeStudents);
+        when(studentCreateServiceMock.getGradeBook()).thenReturn(collegeStudents);
 
-        assertIterableEquals(collegeStudents, studentAndGradeServiceMock.getGradeBook());
+        assertIterableEquals(collegeStudents, studentCreateServiceMock.getGradeBook());
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/"))
                                .andExpect(status().isOk()).andReturn();
         ModelAndView modelAndView = mvcResult.getModelAndView();
@@ -84,6 +84,12 @@ public class GradebookControllerTest {
 
     @Test
     void createStudentHttpRequest() throws Exception{
+        CollegeStudent collegeStudentMock = new GradebookCollegeStudent("Robin","Srivastava","robin@srivastav.com");
+        List<CollegeStudent> collegeStudents = new ArrayList<>(Collections.singletonList(collegeStudentMock));
+
+        when(studentCreateServiceMock.getGradeBook()).thenReturn(collegeStudents);
+        assertIterableEquals(collegeStudents,studentCreateServiceMock.getGradeBook());
+
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("firstname",request.getParameterValues("firstname"))
@@ -92,10 +98,24 @@ public class GradebookControllerTest {
         ).andExpect(status().isOk()).andReturn();
 
         ModelAndView modelAndView = mvcResult.getModelAndView();
+        assert modelAndView != null;
         ModelAndViewAssert.assertViewName(modelAndView,"index");
 
         CollegeStudent collegeStudent = studentDao.findByEmailAddress("scooby@dooby.com");
         assertNotNull(collegeStudent, "Scooby must be present in DB");
+    }
+
+    @Test
+    void deleteStudentHttpRequest() throws Exception{
+        assertTrue(studentDao.findById(0).isPresent());
+        MvcResult mvcResult = mockMvc.
+                perform(MockMvcRequestBuilders.delete("/student/{id}",0))
+                .andExpect(status().isOk())
+                .andReturn();
+        ModelAndView modelAndView = mvcResult.getModelAndView();
+        assert modelAndView != null;
+        ModelAndViewAssert.assertViewName(modelAndView,"index");
+        assertFalse(studentDao.findById(1).isPresent());
     }
 
     @AfterEach
