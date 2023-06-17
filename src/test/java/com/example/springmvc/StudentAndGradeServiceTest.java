@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * So, save method that we have used below is storing data in H2 DB
 * and corresponding fetch is fetching it from H2 DB.
 * */
-@PropertySource("/application.properties")
+@PropertySource("/application-test.properties")
 @SpringBootTest
 public class StudentAndGradeServiceTest {
 
@@ -38,7 +38,7 @@ public class StudentAndGradeServiceTest {
     @BeforeEach
     void setupDb(){
         jdbcTemplate.execute("insert into student(ID, firstname, lastname, email_address)" +
-                " values (0, 'Robin', 'Srivastava', 'robin@srivastav.com')");
+                " values (100, 'Robin', 'Srivastava', 'robin@srivastav.com')");
     }
 
     @Test
@@ -50,15 +50,15 @@ public class StudentAndGradeServiceTest {
 
     @Test
     void checkIsStudentNullCheck(){
-        assertFalse(studentService.checkIfStudentIsNull(0));
+        assertFalse(studentService.checkIfStudentIsNull(100));
         assertTrue(studentService.checkIfStudentIsNull(1));
     }
 
     @Test
     void deleteStudentById(){
-        Optional<CollegeStudent> student = studentDao.findById(0);
+        Optional<CollegeStudent> student = studentDao.findById(100);
         assertTrue(student.isPresent());
-        studentService.deleteStudentById(0);
+        studentService.deleteStudentById(100);
     }
 
     @Sql("/insertData.sql")
